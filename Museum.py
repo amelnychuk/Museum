@@ -45,9 +45,15 @@ class Curator(object):
         post = {"url": url,
                 "diskPath": location}
 
-        if not self._collection.find_one({"url":url}):
+        if not self._collection.images.find_one({"url":url}):
             self._collection.images.insert_one(post)
             urllib.request.urlretrieve(url,location)
+
+    def exists(self, url):
+
+        if self._collection.images.find_one({'url':url}):
+            print(url, "In Collection")
+            return True
 
     @property
     def collection(self):
